@@ -26,7 +26,7 @@ async function getSongs() {
         div.innerHTML = response;
         let as = div.getElementsByTagName("a");
         let songs = [];
-
+	console.log('Pointer is reached')
         for (let index = 0; index < as.length; index++) {
             const element = as[index];
             if (element.href.endsWith(".mp3")) {
