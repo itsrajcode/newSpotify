@@ -20,12 +20,12 @@ function secondsToMinutesSeconds(seconds) {
 
 async function getSongs() {
 
-    let a = await fetch("/assets/songs/");
+    let a = await fetch("http://127.0.0.1:3000/assets/songs");
     let response = await a.text();
     let div = document.createElement("div");
     div.innerHTML = response;
     let as = div.getElementsByTagName("a");
-    let songs = [];
+    songs = [];
     for (let index = 0; index < as.length; index++) {
         const element = as[index];
         if (element.href.endsWith(".mp3")) {
@@ -36,18 +36,20 @@ async function getSongs() {
 }
 
 const playMusic = (track, pause = false) => {
-    if (!pause) {
-        currentSong.play()
-    }
     currentSong.src = "/assets/songs/" + track
+    currentSong.play()
+    if (!pause) {
+        currentSong.play();
+        play.src = "assets/pause.svg";
+    }
     document.querySelector(".songinfo").innerHTML = decodeURI(track);
-    document.querySelector(".songtime").innerHTML = "00:00 / 00:00";
+    document.querySelector(".songtime").innerHTML = "00:00/00:00";
 }
 
 
 async function main() {
 
-    let songs = await getSongs();
+    let songs = await getSongs("assets/songs");
     playMusic(songs[0], true)
     let songUL = document.querySelector(".songList").getElementsByTagName("ul")[0]
     for (const song of songs) {
